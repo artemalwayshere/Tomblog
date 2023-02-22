@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Tomblog.DAL.Model
 {
+    /// <summary>
+    /// Пользователь
+    /// </summary>
     public class User
     {
         [Key]

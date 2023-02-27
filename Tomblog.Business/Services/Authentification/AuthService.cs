@@ -21,6 +21,10 @@ namespace Tomblog.Business.Services.Authentification
 
         public async Task CreateUser(User userModel)
         {
+            if (_authRepo.GetUserByEmail(userModel.Email) != null)
+            {
+                throw new InvalidOperationException("Пользователь с таким Email уже зарегестрирован");
+            }
             userModel.Salt = Guid.NewGuid().ToString();
             userModel.Password = _encrypt.HashPassword(userModel.Password, userModel.Salt);
             await _authRepo.AddUserAsync(userModel);

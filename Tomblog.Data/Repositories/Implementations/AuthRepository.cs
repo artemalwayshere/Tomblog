@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tomblog.DAL.Context;
 using Tomblog.DAL.Model;
 using Tomblog.DAL.Repositories.Interfaces;
 
@@ -10,19 +11,35 @@ namespace Tomblog.DAL.Repositories.Implementations
 {
     public class AuthRepository : IAuthRepository
     {
-        public Task<int> AddUser(User userModel)
+        private readonly AppDbContext _context;
+
+        public AuthRepository(AppDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task<User> GetUserByEmail(string email)
+        public async Task AddUserAsync(User userModel)
         {
-            throw new NotImplementedException();
+            await _context.Users.AddAsync(userModel);
         }
 
-        public Task<User> GetUserById(int id)
+        public User GetUserByEmail(string email)
         {
-            throw new NotImplementedException();
+            return _context.Users.FirstOrDefault(u => u.Email == email);
+        }
+
+        public User GetUserById(int userId)
+        {
+            return _context.Users.FirstOrDefault(u => u.Id == userId);
+        }
+
+        public async Task<bool> SaveChangesAsync()
+        {
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

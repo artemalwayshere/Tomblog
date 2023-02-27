@@ -1,6 +1,13 @@
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Tomblog.Business.Services.Authentification;
 using Tomblog.DAL.Context;
+using Tomblog.DAL.Repositories.Implementations;
+using Tomblog.DAL.Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,8 +18,11 @@ builder.Services.AddControllersWithViews();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(x => x.UseSqlServer(connectionString));
 
-var app = builder.Build();
+builder.Services.AddTransient<IAuthRepository, AuthRepository>();
+builder.Services.AddTransient<IAuthService, AuthService>();
 
+var app = builder.Build();
+ 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -27,8 +37,7 @@ app.UseRouting();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller}/{action=Index}/{id?}");
+    pattern: "api/{controller}/{action}/{id}");
 
-app.MapFallbackToFile("index.html"); ;
 
 app.Run();

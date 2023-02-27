@@ -9,8 +9,9 @@ namespace Tomblog.DAL.Repositories.Interfaces
 {
     public interface IAuthRepository
     {
-        Task<User> GetUserByEmail(string email);
-        Task<User> GetUserById(int id);
-        Task<int> AddUser(User userModel);
+        User GetUserByEmail(string email);
+        User GetUserById(int id);
+        Task AddUserAsync(User userModel);
+        Task<bool> SaveChangesAsync();
     }
 }

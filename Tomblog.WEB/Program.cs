@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Tomblog.Business.Services.Authentification;
+using Tomblog.Business.Services.Authentification.Security;
 using Tomblog.DAL.Context;
 using Tomblog.DAL.Repositories.Implementations;
 using Tomblog.DAL.Repositories.Interfaces;
@@ -20,6 +21,7 @@ builder.Services.AddDbContext<AppDbContext>(x => x.UseSqlServer(connectionString
 
 builder.Services.AddTransient<IAuthRepository, AuthRepository>();
 builder.Services.AddTransient<IAuthService, AuthService>();
+builder.Services.AddSingleton<IEncrypt, Encrypt>();
 
 var app = builder.Build();
  

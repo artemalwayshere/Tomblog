@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Tomblog.Business.Services.Authentification.Security;
 using Tomblog.DAL.Model;
@@ -25,6 +26,14 @@ namespace Tomblog.Business.Services.Authentification
             {
                 throw new InvalidOperationException("Пользователь с таким Email уже зарегестрирован");
             }
+
+            string emailAddress = userModel.Email;
+            string pattern = @"^[A-Z0-9._%+-]+((@home\.co\.uk)|(@home\.com)|(@homegroup\.com))$";
+            if (Regex.IsMatch(emailAddress, pattern, RegexOptions.IgnoreCase))
+            {
+                // email address is valid
+            }
+
             userModel.Salt = Guid.NewGuid().ToString();
             userModel.Password = _encrypt.HashPassword(userModel.Password, userModel.Salt);
             await _authRepo.AddUserAsync(userModel);

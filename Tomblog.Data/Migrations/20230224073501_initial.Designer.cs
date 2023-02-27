@@ -11,8 +11,8 @@ using Tomblog.DAL.Context;
 namespace Tomblog.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230222080525_Initial")]
-    partial class Initial
+    [Migration("20230224073501_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

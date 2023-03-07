@@ -14,7 +14,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllers();
+
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(x => x.UseSqlServer(connectionString));
@@ -22,6 +23,8 @@ builder.Services.AddDbContext<AppDbContext>(x => x.UseSqlServer(connectionString
 builder.Services.AddTransient<IAuthRepository, AuthRepository>();
 builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddSingleton<IEncrypt, Encrypt>();
+
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
  
@@ -36,6 +39,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.MapControllerRoute(
     name: "default",

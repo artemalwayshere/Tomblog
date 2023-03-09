@@ -38,7 +38,7 @@ export default function Register() {
                                 type="submit"
                                 variant="contained"
                                 size="large"
-                                sx={{ width: '90%' }}>Регистрация</Button>
+                                sx={{ width: '90%', margin: '5px'}}>Регистрация</Button>
                         </form>
                     </Box >
                 </CardContent>
